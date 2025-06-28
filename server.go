@@ -66,7 +66,10 @@ var headr = `<head>
 		padding: 30px 40px;
 		border-radius: 12px;
 		width: 100%;
-		max-width: 400px;
+		background-color: #fff;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		box-sizing: border-box;
+		max-width: 500px;
 		margin: 0 auto;
 		text-align: left;
 	 }
@@ -128,6 +131,14 @@ var headr = `<head>
 	 p {
 		font-size: 16px;
 	 }
+
+	 @media (max-width: 900px) {
+	 	body{
+		max-width: 100vw;
+		width: 100vw;}
+		#form-container {
+		max-width: 100vw;
+			width: 100vw;}
   </style>
   </head>`
 var form = `<div id="form-container">
