@@ -96,16 +96,21 @@ var headr = `<head>
 	 }
 
 	 input[type="submit"] {
-		color: white;
-		padding: 12px 18px;
-		border: none;
-		border-radius: 6px;
-		cursor: pointer;
-		width: 100%;
-		font-size: 15px;
-		font-weight: bold;
-		transition: background-color 0.2s ease;
-	 }
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 15px;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
 
 
 	 textarea {
@@ -132,10 +137,10 @@ var form = `<div id="form-container">
       <input type="text" id="name" name="name" /><br /><br />
 
       <label for="email">Email:</label><br />
-      <input type="email" id="email" name="email" /><br /><br />
+      <input required type="email" id="email" name="email" /><br /><br />
 
       <label for="message">Message:</label><br />
-      <textarea id="message" name="message"></textarea><br /><br />
+      <textarea required id="message" name="message"></textarea><br /><br />
 
       <input type="submit" value="Submit" />
     </form>
