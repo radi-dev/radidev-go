@@ -48,79 +48,81 @@ var headr = `<head>
 <title>HTMX Form</title>
 <script src='https://unpkg.com/htmx.org@1.9.10'></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-   <style>
-   body {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 20px;
-    background: #f9f9f9;
-    }
+	<style>
+	body {
+	 font-family: 'Montserrat', sans-serif;
+	 margin: 0;
+	 padding: 0;
+	 width: 100vw;
+	 max-width: 1000px;
+	 margin-left: auto;
+	 margin-right: auto;
+	text-align: center;
+	 padding: 20px;
+	 background: #f9f9f9;
+	 }
 
-    #form-container {
-      padding: 30px 40px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 400px;
-    }
+	 #form-container {
+		padding: 30px 40px;
+		border-radius: 12px;
+		width: 100%;
+		max-width: 400px;
+		margin: 0 auto;
+		text-align: left;
+	 }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
+	 h2 {
+		text-align: center;
+		margin-bottom: 20px;
+		color: #333;
+	 }
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
+	 label {
+		display: block;
+		margin-bottom: 6px;
+		font-weight: 600;
+	 }
 
-    input[type="text"],
-    input[type="email"],
-    textarea {
-      width: 100%;
-      padding: 10px 14px;
-      margin-bottom: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
+	 input[type="text"],
+	 input[type="email"],
+	 textarea {
+		width: 100%;
+		padding: 10px 14px;
+		margin-bottom: 16px;
+		border: 1px solid #ccc;
+		border-radius: 6px;
+		font-size: 14px;
+		box-sizing: border-box;
+	 }
 
-    input[type="submit"] {
-      color: white;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      font-size: 15px;
-      font-weight: bold;
-      transition: background-color 0.2s ease;
-    }
+	 input[type="submit"] {
+		color: white;
+		padding: 12px 18px;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		width: 100%;
+		font-size: 15px;
+		font-weight: bold;
+		transition: background-color 0.2s ease;
+	 }
 
 
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
+	 textarea {
+		resize: vertical;
+		min-height: 80px;
+	 }
 
-    img {
-      display: block;
-      margin: 0 auto 20px;
-      max-width: 100%;
-      border-radius: 8px;
-    }
+	 img {
+		display: block;
+		margin: 0 auto 20px;
+		max-width: 100%;
+		border-radius: 8px;
+	 }
 
-    p {
-      text-align: center;
-      font-size: 16px;
-    }
+	 p {
+		font-size: 16px;
+	 }
   </style>
   </head>`
 var form = `<div id="form-container">
