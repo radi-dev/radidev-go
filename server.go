@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -16,15 +17,29 @@ func main() {
 }
 
 func handler1(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, `<html>%s<div style='max-width:500px; margin-left:auto;margin-right:auto;margin-top:30px'><div><h1>Welcome to the website of Radi.</h1></div><br/><hr/><br/><h3>Currently serving from my <b>Raspberry Pi</b> Home Server.</h3><br/><hr/><br/><p>This site is still a work in progress.</p><br/><div style='background-color:#f2f9f2;padding:10px'><hr/><br/>Reach me via email at <a href='mailto:evaristusanarado@gmail.com' target='__blank'>evaristusanarado@gmail.com</a> or via <a href='https://wa.me/2348138686782' target='__blank'>WhatsApp</a><br/><hr/></div><br/>%s<br/><hr/><br/><img style='width:200px;height:200;border-radius:200px' src='https://github.com/radi-dev.png' alt='github profile photo'/><br/><hr/><br/><br/><hr/><br/></div> </html>`, headr, form)
+	fmt.Fprintf(w, `<html>%s<h1>Welcome to the website of Radi.</h1><br/><hr/><br/><h3>Currently serving from my <b>Raspberry Pi</b> Home Server.</h3><br/><hr/><br/><p>This site is still a work in progress.</p><br/><div style='background-color:#f2f9f2;padding:10px'><hr/><br/>Reach me via email at <a href='mailto:evaristusanarado@gmail.com' target='__blank'>evaristusanarado@gmail.com</a> or via <a href='https://wa.me/2348138686782' target='__blank'>WhatsApp</a><br/><hr/></div><br/>%s<br/><hr/><br/><img style='width:200px;height:200;border-radius:200px' src='https://github.com/radi-dev.png' alt='github profile photo'/><br/><hr/><br/><br/><hr/><br/></html>`, headr, form)
 }
 func handler2(w http.ResponseWriter, r *http.Request) {
-	name := r.FormValue("name")
 	if r.Method == "POST" {
-		fmt.Fprintf(w, `<div id="form-container"><p>Hi %s.</p>
-  <img src="https://media.giphy.com/media/l0MYB8Ory7Hqefo9a/giphy.gif" alt="Funny" width="300" /><br/><br/>
-  <p>😂 Thanks for submitting! We needed that laugh.</p>
-</div>`, name)
+		filename := "formdata.csv"
+		v := r.FormValue
+		name := v("name")
+		file, er := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+
+		if er == os.ErrNotExist {
+			_file, _ := os.Create(filename)
+			file = _file
+			file.WriteString("name,email,message\n") // Header for CSV
+		}
+
+		defer file.Close()
+
+		file_line := fmt.Sprintf("%s, %s, %s\n", v("name"), v("email"), v("message"))
+		file.WriteString(file_line)
+		fmt.Fprintf(w, `%s<div id="form-container">
+  <img src="https://media.giphy.com/media/l0MYB8Ory7Hqefo9a/giphy.gif" alt="Funny" width="200" /><br/><br/>
+  <p>😂 Thanks %s, for submitting! Your message was well received.✅✅✅</p>
+</div>`, form, name)
 	}
 
 }
@@ -35,7 +50,15 @@ var headr = `<head>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
    <style>
    body {
-      font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    background: #f9f9f9;
     }
 
     #form-container {
