@@ -7,17 +7,24 @@ import (
 )
 
 func main() {
-
 	http.HandleFunc("/", handler1)
+	http.HandleFunc("/{owner}", handler1)
 	http.HandleFunc("/submit", handler2)
+	http.Handle("/static/", http.StripPrefix("/static/", fileServ))
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Println("Error starting server:", err)
 	}
 }
 
+var fileServ = http.FileServer(http.Dir("files/"))
+
 func handler1(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, `<html>%s<h1>Welcome to the website of Radi.</h1><br/><hr/><br/><h3>Currently serving from my <b>Raspberry Pi</b> Home Server.</h3><br/><hr/><br/><p>This site is still a work in progress.</p><br/><div style='background-color:#f2f9f2;padding:10px'><hr/><br/>Reach me via email at <a href='mailto:evaristusanarado@gmail.com' target='__blank'>evaristusanarado@gmail.com</a> or via <a href='https://wa.me/2348138686782' target='__blank'>WhatsApp</a><br/><hr/></div><br/>%s<br/><hr/><br/><img style='width:200px;height:200;border-radius:200px' src='https://github.com/radi-dev.png' alt='github profile photo'/><br/><hr/><br/><br/><hr/><br/></html>`, headr, form)
+	owner := r.PathValue("owner")
+	if owner == "" {
+		owner = "Radi"
+	}
+	fmt.Fprintf(w, `<html>%s<img src='/static/RadiDev_banner.gif'/><h1>Welcome to the website of %s.</h1><br/><hr/><br/><h3>Currently serving from my <b>Raspberry Pi</b> Home Server.</h3><br/><hr/><br/><p>This site is still a work in progress.</p><br/><div style='background-color:#f2f9f2;padding:10px'><hr/><br/>Reach me via email at <a href='mailto:evaristusanarado@gmail.com' target='__blank'>evaristusanarado@gmail.com</a> or via <a href='https://wa.me/2348138686782' target='__blank'>WhatsApp</a><br/><hr/></div><br/>%s<br/><hr/><br/><img style='width:200px;height:200;border-radius:200px' src='https://github.com/radi-dev.png' alt='github profile photo'/><br/><hr/><br/><br/><hr/><br/></html>`, headr, owner, form)
 }
 func handler2(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
@@ -48,6 +55,7 @@ var headr = `<head>
 <title>HTMX Form</title>
 <script src='https://unpkg.com/htmx.org@1.9.10'></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+<link href="/static/styles.css" rel="stylesheet">
 	<style>
 	body {
 	 font-family: 'Montserrat', sans-serif;
