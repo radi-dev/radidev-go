@@ -24,7 +24,7 @@ func GetUserById(a *config.App) http.HandlerFunc {
 
 func CreateUserForm(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	fmt.Fprint(w, htmlString)
+	fmt.Fprint(w, headr+htmlString+"<p>Welcome to the user creation page!</p></html>")
 }
 
 func CreateUser(a *config.App) http.HandlerFunc {
@@ -41,19 +41,19 @@ func CreateUser(a *config.App) http.HandlerFunc {
 			return
 		}
 		w.WriteHeader(http.StatusCreated)
-		fmt.Fprintf(w, "%s%s<p>User created with ID: %s</P></html>", headr, htmlString, id)
+		fmt.Fprintf(w, "%s%s<p>User created with ID: %s</p></html>", headr, htmlString, id)
 	}
 }
 
 var htmlString = `
-                <h1>Create User</h1>
+               <body> <h1>Create User</h1>
                 <form method="POST" action="/admin/users/create">
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required><br>
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" required><br>
                     <input type="submit" value="Create User">
-                </form><p><a href='/admin/users'>Show all users</a>
+                </form><p><a href='/admin/users'>Show all users</a></p></body>
     `
 
 func GetAllUsers(a *config.App) http.HandlerFunc {

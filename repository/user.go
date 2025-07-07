@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 	"time"
 	// "radidev/database"
 )
@@ -38,7 +37,6 @@ func (user User) List(db *sql.DB) ([]User, error) {
 		if err != nil {
 			return nil, err
 		}
-		fmt.Println("User is", u)
 		users = append(users, u)
 	}
 	err = rows.Err()

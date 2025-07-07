@@ -3,7 +3,6 @@ package config
 import (
 	"log"
 	"os"
-	"path/filepath"
 
 	"radidev/util"
 
@@ -16,11 +15,13 @@ type Config struct {
 }
 
 func Load() Config {
-	execDir := util.GetExecutableDir()
-	envPath := filepath.Join(execDir, ".env")
-	err := godotenv.Load(envPath)
+	err := godotenv.Load(".env")
 	if err != nil {
-		log.Println("No .env file found or failed to load it", err)
+		log.Println(err)
+		err = godotenv.Load(util.GetAbsPath(".env"))
+		if err != nil {
+			log.Println("No .env file found or failed to load it", err)
+		}
 	}
 
 	return Config{

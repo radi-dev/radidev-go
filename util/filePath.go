@@ -13,3 +13,8 @@ func GetExecutableDir() string {
 	}
 	return filepath.Dir(execPath)
 }
+
+func GetAbsPath(pathFromRoot string) string {
+	execDir := GetExecutableDir()
+	return filepath.Join(execDir, pathFromRoot)
+}
