@@ -56,3 +56,12 @@ func (user User) Get(db *sql.DB, id string) (User, error) {
 	}
 	return u, nil
 }
+
+func (user User) Delete(db *sql.DB, id string) error {
+	query := `DELETE FROM users WHERE id=($1)`
+	_, err := db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

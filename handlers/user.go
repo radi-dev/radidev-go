@@ -78,13 +78,28 @@ func GetAllUsers(a *config.App) http.HandlerFunc {
 func GetUser(a *config.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		user_id := mux.Vars(r)["id"]
+		fmt.Println("Getting user with ID:", user_id)
 		user := repository.User{}
 		user, err := user.Get(a.DB, user_id)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("Error getting user: %s", user_id)+err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Fprintf(w, "%s<p>ID is: %s</p><p>Username is: %s</p><p>PW is: %s</p><p>Created At is: %s</p></html>", headr, user.Id, user.Username, user.PasswordHash, user.CreatedAt)
+		fmt.Fprintf(w, "%s<p>ID is: %s</p><p>Username is: %s</p><p>PW is: %s</p><p>Created At is: %s</p><p><a href='/admin/users'>Show all users</a></p><p><form method='POST' action='/admin/users/%s/delete'><input type='submit' value='Delete User'></form></p></html>", headr, user.Id, user.Username, user.PasswordHash, user.CreatedAt, user.Id)
+	}
+}
+
+func DeleteUser(a *config.App) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		user_id := mux.Vars(r)["id"]
+		fmt.Println("Deleting user with ID:", user_id)
+		user := repository.User{}
+		err := user.Delete(a.DB, user_id)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("Error deleting user: %s", user_id)+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		fmt.Fprintf(w, "%s<p>User with ID %s deleted successfully.</p><p><a href='/admin/users'>Show all users</a></p></html>", headr, user_id)
 	}
 }
 

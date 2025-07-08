@@ -37,6 +37,7 @@ func main() {
 	r.HandleFunc("/admin/users", handlers.GetAllUsers(app)).Methods("GET")
 	r.HandleFunc("/admin/users/create", handlers.CreateUserForm).Methods("GET")
 	r.HandleFunc("/admin/users/create", handlers.CreateUser(app)).Methods("POST")
+	r.HandleFunc("/admin/users/{id}/delete", handlers.DeleteUser(app)).Methods("POST")
 	r.HandleFunc("/admin/users/{id}", handlers.GetUser(app)).Methods("GET")
 
 	r.HandleFunc("/", handler1).Methods("GET")

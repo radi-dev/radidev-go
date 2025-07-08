@@ -4,8 +4,6 @@ import (
 	"log"
 	"os"
 
-	"radidev/util"
-
 	"github.com/joho/godotenv"
 )
 
@@ -18,10 +16,10 @@ func Load() Config {
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Println(err)
-		err = godotenv.Load(util.GetAbsPath(".env"))
-		if err != nil {
-			log.Println("No .env file found or failed to load it", err)
-		}
+		// err = godotenv.Load(util.GetAbsPath(".env"))
+		// if err != nil {
+		// 	log.Println("No .env file found or failed to load it", err)
+		// }
 	}
 
 	return Config{
