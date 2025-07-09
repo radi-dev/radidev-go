@@ -30,12 +30,17 @@ func CreateUserForm(w http.ResponseWriter, r *http.Request) {
 func CreateUser(a *config.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		v := r.FormValue
-		user := repository.User{Username: v("username"), PasswordHash: v("password")}
-		if user.Username == "" || user.PasswordHash == "" {
+		// user := repository.User{Username: v("username"), PasswordHash: v("password")}
+		user := map[string]any{
+			"username":      v("username"),
+			"password_hash": v("password")}
+
+		if user["username"] == "" || user["password_hash"] == "" {
 			http.Error(w, "Username and password are required", http.StatusBadRequest)
 			return
 		}
-		id, err := user.Create(a.DB)
+		// id, err := user.Create(a.DB)
+		id, err := repository.Create(a.DB, "users", user)
 		if err != nil {
 			http.Error(w, "Error creating user: "+err.Error(), http.StatusInternalServerError)
 			return
@@ -58,17 +63,19 @@ var htmlString = `
 
 func GetAllUsers(a *config.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		user := repository.User{}
-		users, err := user.List(a.DB)
+		users, err := repository.ListAsMaps(a.DB, "users", "id", "username")
+
 		if err != nil {
 			http.Error(w, "Error getting users: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 		listItems := ""
 		for _, user := range users {
-			text := fmt.Sprintf("<li><b>%s</b> %s <a href='/admin/users/%s'><button>Open</button></a></li>", user.Username, user.Id, user.Id)
+			text := fmt.Sprintf("<li><b>%s</b> %s <a href='/admin/users/%s'><button>Open</button></a></li>", user["username"], user["id"], user["id"])
 			listItems += text
 		}
+
+		fmt.Println("Users:", users)
 		listIBlock := fmt.Sprintf("%s<div><ul>%s</ul><p><a href='/admin/users/create'>Create a new user</a></p></div></html>", headr, listItems)
 		fmt.Fprint(w, listIBlock)
 	}
