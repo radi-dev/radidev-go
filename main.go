@@ -50,7 +50,7 @@ func main() {
 	}
 }
 
-var fileServ = http.FileServer(http.Dir("files/"))
+var fileServ = http.FileServer(http.Dir("templates/staticFiles/"))
 
 func handler1(w http.ResponseWriter, r *http.Request) {
 	// owner := r.PathValue("owner")
@@ -59,7 +59,9 @@ func handler1(w http.ResponseWriter, r *http.Request) {
 	if owner == "" {
 		owner = "Radi"
 	}
-	fmt.Fprintf(w, `<html>%s<body><img src='/static/RadiDev_banner.gif'/><h1>Welcome to the website of %s.</h1><br/><hr/><br/><h3>Currently serving from my <b>Raspberry Pi</b> Home Server.</h3><br/><hr/><br/><p>This site is still a work in progress.</p><br/><div id=contact><hr/><br/>Reach me via email at <a href='mailto:evaristusanarado@gmail.com' target='__blank'>evaristusanarado@gmail.com</a> or via <a href='https://wa.me/2348138686782' target='__blank'>WhatsApp</a><br/><hr/></div><br/>%s<br/><hr/><br/><img id='pic' src='https://github.com/radi-dev.png' alt='github profile photo'/><br/><hr/><br/><br/><hr/><br/></body></html>`, headr, owner, form)
+	tmpl := handlers.Homepage()
+	tmpl.Execute(w, nil)
+	// fmt.Fprintf(w, `<html>%s<body><img src='/static/RadiDev_banner.gif'/><h1>Welcome to the website of %s.</h1><br/><hr/><br/><h3>Currently serving from my <b>Raspberry Pi</b> Home Server.</h3><br/><hr/><br/><p>This site is still a work in progress.</p><br/><div id=contact><hr/><br/>Reach me via email at <a href='mailto:evaristusanarado@gmail.com' target='__blank'>evaristusanarado@gmail.com</a> or via <a href='https://wa.me/2348138686782' target='__blank'>WhatsApp</a><br/><hr/></div><br/>%s<br/><hr/><br/><img id='pic' src='https://github.com/radi-dev.png' alt='github profile photo'/><br/><hr/><br/><br/><hr/><br/></body></html>`, headr, owner, form)
 }
 func handler2(w http.ResponseWriter, r *http.Request) {
 	filename := "formdata.csv"

@@ -31,7 +31,6 @@ func ConvertStructItemToMap[T any](f T) map[string]any {
 		fieldName := t.Field(i).Name
 		fieldValue := v.Field(i).Interface()
 		data[fieldName] = fieldValue
-		fmt.Printf("%s: %v...\n", fieldName, fieldValue)
 	}
 	return data
 
@@ -53,7 +52,6 @@ func Create(db *sql.DB, tableName string, data map[string]any) (string, error) {
 	query := fmt.Sprintf("INSERT INTO %s (%s) VALUES (%s) RETURNING id", tableName, strings.Join(cols, ", "),
 		strings.Join(placeholders, ", "))
 
-	fmt.Println("Executing query:", query)
 	var id string
 	err := db.QueryRow(query, vals...).Scan(&id)
 	if err != nil {
@@ -62,51 +60,12 @@ func Create(db *sql.DB, tableName string, data map[string]any) (string, error) {
 	return id, nil
 }
 
-// func List[T any](db *sql.DB, table string, fields ...string) ([]T, error) {
-// 	columns := "*"
-// 	if len(fields) > 0 {
-// 		columns = strings.Join(fields, ", ")
-// 	}
-// 	query := fmt.Sprintf("SELECT %s from %s", columns, table)
-// 	fmt.Println("Executing query:", query)
-// 	rows, err := db.Query(query)
-// 	fmt.Println("Rows:", rows)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer rows.Close()
-// 	tType := reflect.TypeOf((*T)(nil)).Elem()
-// 	var results []T
-
-// 	for rows.Next() {
-// 		tPtr := reflect.New(tType)
-// 		tVal := tPtr.Elem()
-// 		var fieldPtrs []any
-// 		for i := 0; i < tVal.NumField(); i++ {
-// 			fieldPtrs = append(fieldPtrs, tVal.Field(i).Addr().Interface())
-// 		}
-
-// 		// for i := 0; i < len(fields); i++ {
-// 		// 	fieldPointers = append(fieldPointers, reflect.New(reflect.TypeOf(u).Field(i).Type).Interface())
-// 		fmt.Println("Field pointers:", fieldPtrs)
-// 		err := rows.Scan(fieldPtrs...)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-
-// 		// Convert pointer to value
-// 		results = append(results, tPtr.Interface().(T))
-// 	}
-
-// 	return results, rows.Err()
-// }
-
-func ListAsMaps(db *sql.DB, table string, fields ...string) ([]map[string]any, error) {
+func ListAsMaps(db *sql.DB, tableName string, fields ...string) ([]map[string]any, error) {
 	columns := "*"
 	if len(fields) > 0 {
 		columns = strings.Join(fields, ", ")
 	}
-	query := fmt.Sprintf("SELECT %s FROM %s", columns, table)
+	query := fmt.Sprintf("SELECT %s FROM %s", columns, tableName)
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
@@ -144,21 +103,39 @@ func ListAsMaps(db *sql.DB, table string, fields ...string) ([]map[string]any, e
 	return result, nil
 }
 
-// func (user User) Get(db *sql.DB, id string) (User, error) {
-// 	query := `SELECT id, username, password_hash, created_at from users WHERE id=($1)`
-// 	var u User
-// 	err := db.QueryRow(query, id).Scan(&u.Id, &u.Username, &u.PasswordHash, &u.CreatedAt)
-// 	if err != nil {
-// 		return u, err
-// 	}
-// 	return u, nil
-// }
+// Fields of T have to match fields in size and order
+func GetById[T any](db *sql.DB, tableStruct T, tableName string, id string, fields ...string) (T, error) {
+	columns := "*"
+	if len(fields) > 0 {
+		columns = strings.Join(fields, ", ")
+	}
+	query := fmt.Sprintf("SELECT %s from %s WHERE id=($1)", columns, tableName)
+	var item T
+	t := reflect.TypeOf(item)
+	tPtr := reflect.New(t)
+	v := tPtr.Elem()
+	if len(fields) >= 1 && v.NumField() != len(fields) {
+		return item, fmt.Errorf("length of %s: %d, is not the same with length of fields provided:%d", t, v.NumField(), len(fields))
+	}
 
-// func (user User) Delete(db *sql.DB, id string) error {
-// 	query := `DELETE FROM users WHERE id=($1)`
-// 	_, err := db.Exec(query, id)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
+	var fieldPtrs []any
+	for i := 0; i < v.NumField(); i++ {
+		fieldPtrs = append(fieldPtrs, v.Field(i).Addr().Interface())
+	}
+
+	err := db.QueryRow(query, id).Scan(fieldPtrs...)
+
+	if err != nil {
+		return item, err
+	}
+	return tPtr.Elem().Interface().(T), nil
+}
+
+func Delete(db *sql.DB, tableName string, id string) error {
+	query := fmt.Sprintf("DELETE FROM %s WHERE id=($1)", tableName)
+	_, err := db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

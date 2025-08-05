@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="theme-color" content="#28282B">
+  <link rel="stylesheet" href="static/tailwind.css" />
+  <link rel="stylesheet" href="static/extra.css" />
+  <!-- <link rel="stylesheet" href="./input.css" /> -->
+</head>
+
+<body class="font-1 text-2xl sm:text-xl w-screen">
+
+  <!-- Background Lines -->
+  <div class="fixed top-0 left-0 w-screen h-lvh z-[-1] flex justify-around items-stretch bg-secondary">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+
+  <header id="header" class="fixed top-5 left-[10vw] px-2  w-[80vw] flex justify-between items-end ">
+    <div class="w-[min(20lvw,83px)] z-10">
+      <svg id="logo" viewBox="0 0 83 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M30.2764 0C36.0919 0 40.8066 4.71475 40.8066 10.5303V16.3926H40.8047C35.3685 16.3929 30.961 20.4705 30.9609 25.5C30.961 30.5295 35.3685 34.6071 40.8047 34.6074L40.8066 34.6064V44.7627C41.4501 48.1603 42.684 49.3837 45.6084 51H30.3799C30.3895 50.8354 30.3945 50.6697 30.3945 50.5029C30.3943 45.4735 25.987 41.3966 20.5508 41.3965C15.1147 41.3967 10.7073 45.4735 10.707 50.5029C10.707 50.6697 10.7131 50.8354 10.7227 51H0V0H30.2764ZM17.7764 6.04395C13.0652 6.04435 9.24525 9.57777 9.24512 13.9365C9.24522 18.2953 13.0652 21.8297 17.7764 21.8301C22.4879 21.8301 26.3075 18.2955 26.3076 13.9365C26.3075 9.57752 22.4879 6.04395 17.7764 6.04395Z"
+          fill="url(#paint0_linear_1358_2663)" />
+        <path
+          d="M71.248 0C77.7385 0 82.9999 5.26151 83 11.752V39.248C82.9999 45.7385 77.7385 51 71.248 51H48.5771C45.3319 51 42.7003 48.3692 42.7002 45.124V9.68652C41.3215 5.70445 40.8285 3.53587 34.707 0H71.248ZM62.0752 16.3926C56.6387 16.3926 52.2314 20.4703 52.2314 25.5C52.2315 30.5297 56.6387 34.6074 62.0752 34.6074C67.5115 34.6073 71.9189 30.5296 71.9189 25.5C71.9189 20.4704 67.5115 16.3927 62.0752 16.3926Z"
+          fill="url(#paint1_linear_1358_2663)" />
+        <defs>
+          <linearGradient id="paint0_linear_1358_2663" x1="22.8042" y1="1.04047e-06" x2="43.6184" y2="25.8078"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0.504808" stop-color="#C5B596" />
+            <stop offset="0.504908" stop-color="#F0E0BC" />
+          </linearGradient>
+          <linearGradient id="paint1_linear_1358_2663" x1="58.8535" y1="9.30588e-07" x2="94.2194" y2="40.6525"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0.394231" stop-color="#F0E0BC" />
+            <stop offset="0.394331" stop-color="#C5B596" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="text-bold text-light text-[2vw] opacity-50">RadiDev</div>
+  </header>
+
+
+  <nav id="nav" class="z-10">
+    <!--Nav-->
+    <div
+      class="fixed flex flex-col left-[3lvw] text-light font-extralight bottom-0 items-center  h-[60dvh]  justify-start gap-10">
+
+      <div class="-rotate-90 aspect-square  items-center justify-center flex"><a href="#Home">Home</a></div>
+      <div class="-rotate-90 aspect-square items-center justify-center flex"><a href="#Projects">Projects</a>
+      </div>
+      <div class="-rotate-90 aspect-square items-center justify-center flex"><a href="#Contact">Contact</a>
+      </div>
+
+      <div class="w-[0.5px] bg-primary h-full"></div>
+    </div>
+    <!--Socials-->
+    <div
+      class="fixed flex flex-col right-[3lvw] text-light font-extralight inset-y-64 items-center  h-[30lvh]  justify-start gap-10 rounded-md">
+
+      <div class=" aspect-square  items-center justify-center flex"><a href="#About"><svg width="50"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" null aria-hidden="true">
+            <defs>
+              <clipPath id="a">
+                <path d="M0 0h32v32H0z" data-name="Rectangle 646" style="fill: currentColor" />
+              </clipPath>
+            </defs>
+            <path
+              d="M17.143.64A.64.64 0 0 0 16.5 0h-1a.64.64 0 0 0-.64.64v6.188a.64.64 0 0
+                                                                                1-1.233.24L11.306 1.33a.64.64 0 0 0-.833-.354l-.932.377a.64.64 0 0 0-.354.833L11.658
+                                                                                8.3a.64.64 0 0 1-1.046.7L5.947 4.331a.64.64 0 0 0-.905 0l-.711.711a.64.64 0 0 0 0
+                                                                                .905l4.189 4.189a.64.64 0 0 1-.709 1.039L2.382 8.8a.64.64 0 0 0-.843.33l-.4.922a.64.64 0
+                                                                                0 0 .33.843l6.255 2.733a.64.64 0 0 1-.256 1.226H.64A.64.64 0 0 0 0 15.5v1a.64.64 0 0 0
+                                                                                .64.64h6.826a.64.64 0 0 1 .256 1.226L1.467 21.1a.64.64 0 0 0-.33.843l.4.922a.64.64 0 0 0
+                                                                                .843.33l5.429-2.372a.64.64 0 0 1 .709 1.039l-4.187 4.191a.64.64 0 0 0 0
+                                                                                .905l.711.711a.64.64 0 0 0 .905 0L10.612 23a.64.64 0 0 1 1.046.692l-2.472 6.121a.64.64 0
+                                                                                0 0 .354.833l.932.377a.64.64 0 0 0 .833-.354l2.318-5.737a.64.64 0 0 1
+                                                                                1.233.24v6.188a.64.64 0 0 0 .64.64H16.5a.64.64 0 0 0 .64-.64v-6.188a.64.64 0 0 1
+                                                                                1.233-.24l2.318 5.737a.64.64 0 0 0 .833.354l.932-.377a.64.64 0 0 0 .354-.833L20.342
+                                                                                23.7a.64.64 0 0 1 1.046-.7l4.665 4.665a.64.64 0 0 0 .905 0l.711-.711a.64.64 0 0 0
+                                                                                0-.905l-4.189-4.185a.64.64 0 0 1 .709-1.039l5.429 2.375a.64.64 0 0 0
+                                                                                .843-.33l.4-.922a.64.64 0 0 0-.33-.843l-6.255-2.733a.64.64 0 0 1 .256-1.226h6.828A.64.64
+                                                                                0 0 0 32 16.5v-1a.64.64 0 0 0-.64-.64h-6.826a.64.64 0 0 1-.256-1.226l6.255-2.734a.64.64
+                                                                                0 0 0 .33-.843l-.4-.922a.64.64 0 0 0-.843-.33l-5.428 2.372a.64.64 0 0
+                                                                                1-.709-1.039l4.189-4.189a.64.64 0 0 0 0-.905l-.711-.711a.64.64 0 0 0-.905 0L21.388
+                                                                                9a.64.64 0 0 1-1.046-.7l2.471-6.117a.64.64 0 0 0-.354-.833l-.931-.373a.64.64 0 0
+                                                                                0-.833.354l-2.319 5.737a.64.64 0 0 1-1.233-.24z"
+              data-name="Path 481" style="fill: currentColor; fill-rule: evenodd" />
+          </svg></a></div>
+      <div class="-rotate-90 aspect-square items-center justify-center flex"><a href="#Projects">Projects</a>
+      </div>
+      <div class="-rotate-90 aspect-square items-center justify-center flex"><a href="#Contact">Contact</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <!--Extras-->
+  <div class="fixed bg-dark w-[max(20lvh,20lvw)] h-[max(20lvh,20lvw)] rounded-full z-[-1] opacity-20 shadow-2xl -ml-32">
+  </div>
+  <div
+    class="fixed bg-dark w-[max(20lvh,20lvw)] h-[max(20lvh,20lvw)] rounded-full z-[-1] opacity-20 shadow-2xl -ml-32 mt-12 left-1/2 top-1/3">
+  </div>
+
+
+  <!--Content-->
+
+  <section id="Home" class="lg:h-[85lvh] w-full mt-[max(100px,15lvh)] m b-[max(200px,15lvh)] flex flex-col ">
+
+    <!--Greeting-->
+    <div class="pl-[10lvw] text-light font-black p-2 text-6xl font-2">
+      <p>HELLO!</p>
+      <p class="ps-32">I AM</p>
+    </div>
+    <div class="w-full text-primary font-black flex justify-around items-center text-[22vw] h-[20vw]">
+      <!-- Letters-->
+      <div class="w-1/2"></div>
+      <div class="text-center w-full">R</div>
+      <div class="text-center w-full">A</div>
+      <div class="text-center w-full">D</div>
+      <div class="text-center w-full">I</div>
+      <div class="w-1/2"></div>
+    </div>
+    <!--Description-->
+    <article
+      class="relative md:left-[10lvw] lg:left-[50lvw] pt-5 md:w-[80lvw] lg:w-[40lvw]  text-light font-light p-1 text-2xl">
+      <p>Evaristus Anarado, software engineer.</p>
+      <p>I build things for the web.</p>
+      <p>I develop custom AI-infused automation processes...with code.</p>
+      <p>I want to work with <b>YOU</b></p>
+    </article>
+
+
+
+
+
+  </section>
+
+  <div class="w-[50vw] h-px bg-dark ml-[25vw] mr-[25vw] mt-40 mb-10 lg:-mt-20"></div>
+
+
+  <section id="Projects" class=" h-screen mt-20 text-center">Projects<div
+      class="w-[50vw] h-px bg-dark ml-[25vw] mr-[25vw] mb-10"></div>
+  </section>
+
+  <section id="Contact" class=" h-screen text-center">Contact</section>
+
+</body>
+
+</html>

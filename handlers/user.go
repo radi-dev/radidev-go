@@ -9,18 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func GetUserById(a *config.App) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		rows, err := a.DB.Query("SELECT id, name FROM users")
-		if err != nil {
-			http.Error(w, "DB error", 500)
-			return
-		}
-		defer rows.Close()
-
-		// ...
-	}
-}
+var user repository.User
 
 func CreateUserForm(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
@@ -31,16 +20,17 @@ func CreateUser(a *config.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		v := r.FormValue
 		// user := repository.User{Username: v("username"), PasswordHash: v("password")}
-		user := map[string]any{
+		userMap := map[string]any{
 			"username":      v("username"),
 			"password_hash": v("password")}
 
-		if user["username"] == "" || user["password_hash"] == "" {
+		if userMap["username"] == "" || userMap["password_hash"] == "" {
 			http.Error(w, "Username and password are required", http.StatusBadRequest)
 			return
 		}
-		// id, err := user.Create(a.DB)
-		id, err := repository.Create(a.DB, "users", user)
+
+		id, err := user.CreateUser(a.DB, userMap)
+		// id, err := repository.Create(a.DB, "users", user)
 		if err != nil {
 			http.Error(w, "Error creating user: "+err.Error(), http.StatusInternalServerError)
 			return
@@ -63,7 +53,7 @@ var htmlString = `
 
 func GetAllUsers(a *config.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		users, err := repository.ListAsMaps(a.DB, "users", "id", "username")
+		users, err := user.ListUsers(a.DB, "id", "username")
 
 		if err != nil {
 			http.Error(w, "Error getting users: "+err.Error(), http.StatusInternalServerError)
@@ -86,8 +76,9 @@ func GetUser(a *config.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		user_id := mux.Vars(r)["id"]
 		fmt.Println("Getting user with ID:", user_id)
-		user := repository.User{}
-		user, err := user.Get(a.DB, user_id)
+
+		// user, err := user.Get(a.DB, user_id)
+		user, err := user.GetUser(a.DB, user, user_id, "id", "username", "password_hash", "created_at")
 		if err != nil {
 			http.Error(w, fmt.Sprintf("Error getting user: %s", user_id)+err.Error(), http.StatusInternalServerError)
 			return
@@ -100,8 +91,7 @@ func DeleteUser(a *config.App) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		user_id := mux.Vars(r)["id"]
 		fmt.Println("Deleting user with ID:", user_id)
-		user := repository.User{}
-		err := user.Delete(a.DB, user_id)
+		err := user.DeleteUser(a.DB, user_id)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("Error deleting user: %s", user_id)+err.Error(), http.StatusInternalServerError)
 			return
