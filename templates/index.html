@@ -131,7 +131,7 @@
       class="relative md:left-[10lvw] lg:left-[50lvw] pt-5 md:w-[80lvw] lg:w-[40lvw]  text-light font-light p-1 text-2xl">
       <p>Evaristus Anarado, software engineer.</p>
       <p>I build things for the web.</p>
-      <p>I develop custom AI-infused automation processes...with code.</p>
+      <p>I develop custom AI automation... with code.</p>
       <p>I want to work with <b>YOU</b></p>
     </article>
 
@@ -141,7 +141,7 @@
 
   </section>
 
-  {{.}}
+
 
   <div class="w-[50vw] h-px bg-dark ml-[25vw] mr-[25vw] mt-40 mb-10 lg:-mt-20"></div>
 
@@ -150,7 +150,11 @@
       class="w-[50vw] h-px bg-dark ml-[25vw] mr-[25vw] mb-10"></div>
   </section>
 
-  <section id="Contact" class=" h-screen text-center">Contact</section>
+  <section id="Contact" class=" h-screen text-center  text-light flex flex-col items-center">Contact <div
+      class="bg-dark flex flex-col items-center"> {{.}}
+    </div>
+  
+  </section>
 
 </body>
 
