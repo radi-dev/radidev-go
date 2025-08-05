@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -53,15 +54,9 @@ func main() {
 var fileServ = http.FileServer(http.Dir("templates/staticFiles/"))
 
 func handler1(w http.ResponseWriter, r *http.Request) {
-	// owner := r.PathValue("owner")
-	owner := mux.Vars(r)["owner"] // Get the owner from the URL path
-	fmt.Println("Owner:", owner)
-	if owner == "" {
-		owner = "Radi"
-	}
+	form := template.HTML(form)
 	tmpl := handlers.Homepage()
-	tmpl.Execute(w, nil)
-	// fmt.Fprintf(w, `<html>%s<body><img src='/static/RadiDev_banner.gif'/><h1>Welcome to the website of %s.</h1><br/><hr/><br/><h3>Currently serving from my <b>Raspberry Pi</b> Home Server.</h3><br/><hr/><br/><p>This site is still a work in progress.</p><br/><div id=contact><hr/><br/>Reach me via email at <a href='mailto:evaristusanarado@gmail.com' target='__blank'>evaristusanarado@gmail.com</a> or via <a href='https://wa.me/2348138686782' target='__blank'>WhatsApp</a><br/><hr/></div><br/>%s<br/><hr/><br/><img id='pic' src='https://github.com/radi-dev.png' alt='github profile photo'/><br/><hr/><br/><br/><hr/><br/></body></html>`, headr, owner, form)
+	tmpl.Execute(w, form)
 }
 func handler2(w http.ResponseWriter, r *http.Request) {
 	filename := "formdata.csv"
@@ -86,12 +81,6 @@ func handler2(w http.ResponseWriter, r *http.Request) {
 
 }
 
-var headr = `<head>
-<title>Radi Dev</title>
-<script src='https://unpkg.com/htmx.org@1.9.10'></script>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-<link href="/static/styles.css" rel="stylesheet">
-  </head>`
 var form = `<div id="form-container">
 	<h2>Send Me a Message</h2>
     <form hx-post="/submit" hx-target="#form-container" hx-swap="outerHTML">
